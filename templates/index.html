@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- Hero & Search section -->
+<div class="text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight mb-4">Discover Your Next Great Read</h1>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-6">Enter a book title or keyword to explore matches engineered using content-based description analysis.</p>
+    
+    <form action="{{ url_for('search') }}" method="GET" class="max-w-xl mx-auto flex gap-2">
+        <input type="text" name="q" placeholder="Search by book title..." value="{{ query or '' }}" 
+               class="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition shadow-md">
+            Search
+        </button>
+    </form>
+</div>
+
+<!-- Book Results Header -->
+<div class="mb-6 flex justify-between items-center border-b border-gray-200 pb-4">
+    <h2 class="text-2xl font-bold text-gray-800">
+        {% if query %}
+            Search Results for "{{ query }}"
+        {% else %}
+            Top 50 Curated Books
+        {% endif %}
+    </h2>
+    {% if query %}
+        <a href="{{ url_for('index') }}" class="text-sm text-blue-600 hover:underline">&larr; Back to Top 50</a>
+    {% endif %}
+</div>
+
+<!-- Book Grid Display -->
+{% if books %}
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for book in books %}
+    <div class="bg-white rounded-lg shadow border border-gray-100 overflow-hidden flex flex-col justify-between hover:shadow-lg transition duration-200">
+        <div class="p-5">
+            <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-semibold uppercase tracking-wide mb-2">
+                {{ book.genre }}
+            </span>
+            <h3 class="text-lg font-bold text-gray-900 mb-1 leading-tight">{{ book.title }}</h3>
+            <p class="text-sm text-gray-500 mb-3">By {{ book.author }}</p>
+            <p class="text-sm text-gray-600 line-clamp-3 mb-4">{{ book.description }}</p>
+        </div>
+        <div class="px-5 pb-5 pt-3 bg-gray-50 flex items-center justify-between border-t border-gray-100">
+            <span class="text-yellow-500 font-bold text-sm">⭐ {{ book.rating }}</span>
+            <a href="{{ url_for('recommend', book_id=book._id) }}" 
+               class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold py-1.5 px-3 rounded transition">
+                Get Recommendations
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-12">
+    <p class="text-gray-500 text-lg">No books found matching your search term.</p>
+</div>
+{% endif %}
+
+{% endblock %}

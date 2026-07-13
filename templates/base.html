@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LiteraryMatch - Book Recommender</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen font-sans">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-600 text-white shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="{{ url_for('index') }}" class="text-xl font-bold tracking-wider flex items-center gap-2">
+                        📚 LiteraryMatch
+                    </a>
+                </div>
+                <div class="flex items-center gap-4">
+                    {% if username %}
+                        <span class="text-sm bg-blue-700 px-3 py-1.5 rounded">Hello, <strong>{{ username }}</strong></span>
+                        <a href="{{ url_for('logout') }}" class="text-sm hover:underline text-gray-200">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}" class="text-sm hover:underline">Login</a>
+                        <a href="{{ url_for('register') }}" class="bg-white text-blue-600 px-3 py-1.5 rounded font-medium hover:bg-gray-100 transition">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="max-w-4xl mx-auto w-full px-4 mt-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="p-4 rounded mb-4 text-sm {% if category == 'error' %} bg-red-100 text-red-700 {% else %} bg-green-100 text-green-700 {% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-400 py-6 text-center text-sm border-t border-gray-700">
+        <p>&copy; 2026 LiteraryMatch. Personalized Book Recommender System.</p>
+    </footer>
+
+</body>
+</html>
