@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LiteraryMatch - Book Recommender</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='logo1.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 flex flex-col min-h-screen font-sans">
@@ -14,7 +15,8 @@
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
                     <a href="{{ url_for('index') }}" class="text-xl font-bold tracking-wider flex items-center gap-2">
-                        📚 LiteraryMatch
+                        <!-- Render the PNG logo instead of the emoji -->
+                        <img src="{{ url_for('static', filename='logo.png') }}" alt="LiteraryMatch Logo" class="h-8 w-auto object-contain">
                     </a>
                 </div>
                 <div class="flex items-center gap-4">
